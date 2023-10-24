@@ -265,7 +265,7 @@ class NewRelic::Agent::Instrumentation::ActiveRecordSubscriberTest < Minitest::T
       item = DependencyDetection.instance_variable_get(:@items).detect { |i| i.name == instrumentation_name }
 
       assert item, "Could not locate the '#{instrumentation_name}' dependency detection item for AR notifications"
-      dependency_check = item.dependencies.detect { |d| d.source.match?(/disable_#{instrumentation_name}/) }
+      dependency_check = item.dependencies.detect { |d| d&.source&.match?(/disable_#{instrumentation_name}/) }
 
       assert dependency_check, "Could not locate the dependency check related to the disable_#{instrumentation_name} " \
         'configuration parameter'
@@ -291,7 +291,7 @@ class NewRelic::Agent::Instrumentation::ActiveRecordSubscriberTest < Minitest::T
     item = DependencyDetection.instance_variable_get(:@items).detect { |i| i.name == instrumentation_name }
 
     assert item, "Could not locate the '#{instrumentation_name}' dependency detection item for AR notifications"
-    dependency_check = item.dependencies.detect { |d| d.source.match?(/disable_#{instrumentation_name}/) }
+    dependency_check = item.dependencies.detect { |d| d&.source&.match?(/disable_#{instrumentation_name}/) }
 
     assert dependency_check, "Could not locate the dependency check related to the disable_#{instrumentation_name} " \
       'configuration parameter'
